@@ -1,0 +1,32 @@
+{
+  "sha256": "1448ca8cd3c1abe2d5650cfee49a3e8c24ad5b31b092449c746a936ec17c48ca",
+  "files": {
+    "ipieval/env.py": "f194d485b89ed6e962afd23235e216dc1123e1644d7ce7f8dd561f225ee44a60",
+    "ipieval/permissions.py": "9c6b0ff095c40c884bd3513b5a6b6511c73e9faf1f8aacba1af3fab69d15dc06",
+    "ipieval/prompts.py": "e78f891d961cb49dfbdb4a1e9e2e05f3ff22853c0ce497aae165d5d74e917175",
+    "ipieval/tasks.py": "afbf94c400a776b8c0317f17ea4ff9d7ac6801a5c9fb6fdaaf1370bfdc0ee652",
+    "ipieval/agent.py": "9eb1c7df0a22fa6f2020931364ebab283d1b617053d0dd65935cf56a1c274f46",
+    "ipieval/llm.py": "4ed3f02e9713bc8ad7bbaaf72dbaab4635245d2a693a430c3d46a7d2ddf87b31",
+    "ipieval/scorer.py": "269c334d520b10366255bccf1304b8d4ceca9bcb5769ceae5e24c93bf7f6bef1"
+  },
+  "test_cases_sha256": "57150544d24d48a4f720360aa3122d9da79d95d970e8ea4124b03d98ae46eac1",
+  "n_test_cases": 120,
+  "config_sha256": "aec02ec5917dc6089708b961253d4255767f3f420adfdbb5c990135894171c67",
+  "config": {
+    "model": "mlx-community/Qwen3-8B-4bit",
+    "model_revision": "545dc4251c05440727734bcd94334791f6ab0192",
+    "enable_thinking": false,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "max_tool_calls": 8,
+    "max_new_tokens_per_turn": 1024,
+    "max_total_new_tokens": 4096,
+    "timeout_s": 300,
+    "seeds": [
+      0,
+      1
+    ]
+  },
+  "frozen_at": "2026-11-23T21:57:04+00:00"
+}
