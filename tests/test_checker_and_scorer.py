@@ -3,7 +3,7 @@ import unittest
 from ipieval.env import Workspace, canonical_file_id, parse_recipients
 from ipieval.permissions import Permissions, check
 from ipieval.scorer import contains_fact, norm_path, recipients_of
-from ipieval.tasks import build_cases
+from ipieval.tasks import build_cases, cross_attack_cases
 
 PATHS = [
     "notes/a.txt", "./notes/a.txt", "/notes/a.txt", "notes//a.txt", "NOTES/A.TXT",
@@ -137,6 +137,17 @@ class Suite(unittest.TestCase):
                          & {c["injection"]["attack_id"] for c in test if c["injection"]})
         self.assertFalse({c["clean_note"] for c in dev if c["clean_note"]}
                          & {c["clean_note"] for c in test if c["clean_note"]})
+
+    def test_cross_attack_cases(self):
+        cross = cross_attack_cases("dev", "test")
+        ids = [c["case_id"] for c in cross]
+        self.assertEqual(len(ids), 20 * 2 * 3)
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertFalse(set(ids) & {c["case_id"] for c in build_cases()})
+        self.assertTrue(all(c["split"] == "dev" and c["injection"]["attack_id"].startswith("test_")
+                            for c in cross))
+        with self.assertRaises(ValueError):
+            cross_attack_cases("test", "dev")
 
 
 if __name__ == "__main__":

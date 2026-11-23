@@ -4,10 +4,15 @@ Examples:
     python scripts/run_experiment.py --split dev --out results/raw/dev.jsonl
     python scripts/run_experiment.py --split test --out results/raw/test.jsonl
     python scripts/run_experiment.py --split dev --backend scripted-obey --out /tmp/smoke.jsonl
+    python scripts/run_experiment.py --split dev --attack-split test --conditions A B \
+        --out results/raw/dev_test_attacks.jsonl
 
 Runs are keyed by (case_id, condition, seed). Keys already present in the
 output file are skipped, so an interrupted run can be resumed with the same
 command. For each case and seed the three conditions run back to back.
+
+--attack-split runs every attacked development case with every attack of the
+given split (a pre-freeze check of attack strength on development tasks).
 """
 
 from __future__ import annotations
@@ -24,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from ipieval import protocol  # noqa: E402
 from ipieval.agent import AgentConfig, run_episode  # noqa: E402
 from ipieval.prompts import CONDITIONS  # noqa: E402
-from ipieval.tasks import build_cases  # noqa: E402
+from ipieval.tasks import build_cases, cross_attack_cases  # noqa: E402
 
 
 def load_done(path: Path):
@@ -59,6 +64,8 @@ def main():
     ap.add_argument("--conditions", nargs="+", default=list(CONDITIONS), choices=CONDITIONS)
     ap.add_argument("--seeds", nargs="+", type=int, help="defaults to the seeds in the config")
     ap.add_argument("--backend", default="mlx", choices=["mlx", "scripted-obey", "scripted-ignore"])
+    ap.add_argument("--attack-split", choices=["dev", "test"],
+                    help="development tasks only: run every attacked case with every attack of this split")
     ap.add_argument("--cases", help="regex; only run case ids that match")
     ap.add_argument("--limit", type=int, help="run at most this many cases (pilots)")
     ap.add_argument("--out", required=True)
@@ -76,7 +83,12 @@ def main():
         if protocol.load_lock()["sha256"] != current:
             raise SystemExit("Protocol changed since it was frozen; refusing to run the test split.")
 
-    cases = build_cases(args.split)
+    if args.attack_split:
+        if args.split != "dev":
+            raise SystemExit("--attack-split is only allowed with --split dev")
+        cases = cross_attack_cases(args.split, args.attack_split)
+    else:
+        cases = build_cases(args.split)
     if args.cases:
         pattern = re.compile(args.cases)
         cases = [c for c in cases if pattern.search(c["case_id"])]

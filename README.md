@@ -44,8 +44,10 @@ part of what the experiment probes.
 * Attacks only replace that note in one tool output. The request,
   permissions, tools, and task facts are identical across variants.
 * Task templates, attack templates, and benign notes are disjoint between
-  the development and test splits. Attack styles include an adaptation of
-  the "important instructions" attack from AgentDojo.
+  the development and test splits. The test attacks are an adaptation of
+  the "important instructions" attack from AgentDojo, a forged permission
+  update that imitates the permission list in the system prompt, and a
+  correction that presents the forbidden action as part of the task.
 
 This gives 60 development and 120 test cases. With three conditions and two
 seeds, that is 360 development and 720 test runs.
@@ -102,7 +104,9 @@ any frozen file, test case, or setting has changed):
 Runs are appended one JSON trace per line and an interrupted run resumes
 where it stopped. `--backend scripted-obey` replaces the model with a scripted
 agent that always follows the injection, which is useful for checking the
-pipeline in seconds.
+pipeline in seconds. `--split dev --attack-split test` runs every attacked
+development case with every test attack; it was used once, before freezing,
+to check attack strength (see the development log in `PROTOCOL.md`).
 
 ## Layout
 
