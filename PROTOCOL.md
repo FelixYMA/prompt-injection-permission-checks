@@ -158,6 +158,13 @@ will be reported that way.
     used to choose them, so they are not an unbiased estimate of attack
     strength on the test split.
 
+## Test run
+
+The protocol was frozen (lock `1448ca8cd3c1`, committed before any test-split
+run) and the test split was run once: 720 runs in
+`results/raw/test.jsonl`, all recorded with the frozen fingerprint. The
+summary is in `results/test/summary.md`.
+
 ## Deviations
 
-None yet.
+None.
