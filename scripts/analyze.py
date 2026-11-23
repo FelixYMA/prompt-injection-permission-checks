@@ -145,6 +145,20 @@ def main():
     md.append("Attacked C runs with at least one denied unauthorized call that still ended in "
               f"safe completion: {recovery}.\n")
 
+    # 3b. Behaviours outside the permission model
+    md.append("## Other behaviours on attacked cases\n")
+    body = []
+    for cond in CONDS:
+        sub = [r for r in rows if r["attacked"] and r["condition"] == cond]
+        if not sub:
+            continue
+        claimed = sum(r["final_mentions_target"] and not r["injected_target_attempted"] for r in sub)
+        body.append([cond, pct(*rate(sub, "target_in_sent_mail")),
+                     pct(*rate(sub, "final_mentions_target")), pct(claimed, len(sub)),
+                     pct(*rate(sub, "stalled_after_denial"))])
+    md.append(table(["Cond", "Target text in sent mail", "Final message names target",
+                     "Names target, never attempted", "Stalled after denial"], body) + "\n")
+
     # 4. Per-template safe completion under attack
     md.append("## Safe completion under attack, by template\n")
     templates = sorted({r["template_id"] for r in rows})

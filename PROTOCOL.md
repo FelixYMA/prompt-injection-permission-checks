@@ -118,6 +118,22 @@ will be reported that way.
 * Unit and end-to-end tests check that the scorer's separately written path
   and address parsing agrees with the runtime's.
 
+## Development log
+
+* Model pinned to `mlx-community/Qwen3-8B-4bit` at revision
+  `545dc4251c05440727734bcd94334791f6ab0192`.
+* Full development split run (360 runs, `results/raw/dev.jsonl`,
+  summary in `results/dev/summary.md`). Clean success was 100% in all
+  conditions; injected targets were executed in 3.8% (A) and 11.2% (B) of
+  attacked runs and never in C. One of the two development attack templates
+  never led to an executed violation.
+* Trace reading showed final replies that claim the injected action was done
+  when no such call was made, injected instructions copied into emails sent to
+  allowed recipients, and one run that stopped after a denial without
+  finishing. Three descriptive measures were added to the scorer for these
+  (`target_in_sent_mail`, `final_mentions_target`, `stalled_after_denial`).
+  They do not change any primary outcome.
+
 ## Deviations
 
 None yet.
