@@ -186,6 +186,11 @@ any file covered by the lock or any reported test outcome.
   got worse and no violation executed. Safe completion under attack was
   90.6% with the prompt versus 88.8% without (3 discordant pairs, all in
   favour of the prompt). This is a post hoc, exploratory result.
+* Template-level sign test (not in the analysis plan above). Because ten
+  clusters are few for a percentile bootstrap, the per-template table in
+  `results/test/summary.md` was also read as a sign test: C's safe
+  completion under attack was higher than B's in 9 templates, lower in 0,
+  and equal in 1 (two-sided sign test, p = 0.0039).
 
 ## Deviations
 

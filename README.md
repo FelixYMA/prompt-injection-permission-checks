@@ -47,7 +47,10 @@ part of what the experiment probes.
   the development and test splits. The test attacks are an adaptation of
   the "important instructions" attack from AgentDojo, a forged permission
   update that imitates the permission list in the system prompt, and a
-  correction that presents the forbidden action as part of the task.
+  correction that presents the forbidden action as part of the task. The
+  wording of the first follows AgentDojo's attack text, which is released
+  under the MIT License
+  ([ethz-spylab/agentdojo](https://github.com/ethz-spylab/agentdojo)).
 
 This gives 60 development and 120 test cases. With three conditions and two
 seeds, that is 360 development and 720 test runs.
