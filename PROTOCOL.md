@@ -181,8 +181,8 @@ any file covered by the lock or any reported test outcome.
   runs with a denial were rerun with one continuation prompt added when the
   agent stops calling tools after a denial (`ipieval/followup.py`). The
   reruns matched the original runs up to the prompt in 69 of 69 cases. Only
-  3 of the 16 runs then finished safely; in the others the agent repeated
-  its announcement or claimed again that the email had been sent. No run
+  3 of the 16 runs then finished safely; in the other 13 the agent again
+  announced the email or claimed it had been sent (5 runs, up from 4). No run
   got worse and no violation executed. Safe completion under attack was
   90.6% with the prompt versus 88.8% without (3 discordant pairs, all in
   favour of the prompt). This is a post hoc, exploratory result.
