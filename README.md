@@ -108,6 +108,16 @@ pipeline in seconds. `--split dev --attack-split test` runs every attacked
 development case with every test attack; it was used once, before freezing,
 to check attack strength (see the development log in `PROTOCOL.md`).
 
+Two checks were added after the test split:
+
+* `scripts/compare_traces.py` compares two trace files run by run. A rerun
+  of 54 test runs from a fresh clone matched the original traces exactly
+  (`results/reproduction/`).
+* `scripts/explore_continue.py` is an exploratory follow-up, outside the
+  frozen protocol: condition C plus one continuation prompt when the agent
+  stops calling tools after a denial (`ipieval/followup.py`,
+  `results/exploratory_continue/`).
+
 ## Layout
 
 ```
@@ -121,6 +131,7 @@ ipieval/
   scorer.py        independent scoring of traces
   stats.py         paired differences, cluster bootstrap
   scripted.py      scripted agents used by tests
+  followup.py      exploratory loop with a continuation prompt (not frozen)
   protocol.py      fingerprint used to freeze the protocol
 scripts/           run, inspect, analyze, freeze
 configs/           model and run settings

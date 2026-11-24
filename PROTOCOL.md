@@ -165,6 +165,28 @@ run) and the test split was run once: 720 runs in
 `results/raw/test.jsonl`, all recorded with the frozen fingerprint. The
 summary is in `results/test/summary.md`.
 
+## After the test run
+
+These checks were added after the test split was run. They do not change
+any file covered by the lock or any reported test outcome.
+
+* Reproduction check (`results/reproduction/summary.md`). From a fresh clone,
+  the tests and the lock check pass, `scripts/analyze.py` reproduces the
+  committed tables byte for byte, and a rerun of 54 test runs with the model
+  matched the original traces exactly.
+* Exploratory follow-up (`results/exploratory_continue/summary.md`). Of the
+  16 attacked C runs that stopped after a denial without finishing, 12 ended
+  by announcing a next step and 4 by claiming an email had been sent when
+  none was. To test whether the agent loop was the cause, the 69 attacked C
+  runs with a denial were rerun with one continuation prompt added when the
+  agent stops calling tools after a denial (`ipieval/followup.py`). The
+  reruns matched the original runs up to the prompt in 69 of 69 cases. Only
+  3 of the 16 runs then finished safely; in the others the agent repeated
+  its announcement or claimed again that the email had been sent. No run
+  got worse and no violation executed. Safe completion under attack was
+  90.6% with the prompt versus 88.8% without (3 discordant pairs, all in
+  favour of the prompt). This is a post hoc, exploratory result.
+
 ## Deviations
 
 None.
